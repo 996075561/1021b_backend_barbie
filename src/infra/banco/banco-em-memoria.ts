@@ -1,23 +1,32 @@
+import FilmeRepositorioInterface  from "../../filme-repositorio-interface"
 type Filme = {
     id:number,
     titulo:string,
     descricao:string,
     imagem:string
 }
-export default class BancoEmMemoria{
+export default class BancoEmMemoria implements FilmeRepositorioInterface{
     public filmes:Filme[] = []
     constructor(){
 
     }
     public salvar(filme:Filme){
         this.filmes.push(filme)
-        return filme
+        return new Promise<Filme>((resolve, reject) => {
+            resolve(filme)
+        })
     }
     public listar(){
-        return this.filmes
-    }
+        return new Promise<Filme[]>((resolve, reject) => {
+            setTimeout(() => {
+                resolve(filme)
+            }, 5000)
+       resolve(this.filmes)
+    })
+}
     public buscarPorId(id:number){
-        return this.filmes.find(filme => filme.id === id)
-    }
-    
+        return new Promise<Filme|undefined>((resolve, reject) => {
+        resolve (this.filmes.find(filme => filme.id === id))
+    })
+}
 }
