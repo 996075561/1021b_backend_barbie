@@ -1,15 +1,28 @@
 import express from 'express'
 const app = express()
 app.use(express.json())
+import SalvaFilme from './infra/banco/banco-mongodb'
 import ListaFilme from './aplicacao/lista-filme.use-case'
 import BancoMongoDB from './infra/banco/banco-mongodb'
 const bancoMongoDB = new BancoMongoDB()
 app.get('/filmes',async (req,res)=>{
     //usem o listarFilme Usecase para listar os filmes
-    
     const listaFilme = new ListaFilme(bancoMongoDB)
     const filmes = await listaFilme.executar()
     res.send(filmes)
+})
+app.post('/filmes',async(req,res)=>{
+    const {id,titulo,descricao,imagem} = req.body
+    const filme = {
+        id,
+        titulo,
+        descricao,
+        imagem
+    }
+    const SalvaFilme = new SalvaFilme(bancoMongoDB)
+    const resposta = await SalvaFilme.execute(filme)
+    res.status(201).send(filme)
+  
 })
 app.post('/filmes',(req,res)=>{
     const {id,titulo,descricao,imagem} = req.body
