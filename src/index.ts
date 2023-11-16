@@ -1,7 +1,7 @@
 import express from 'express'
 const app = express()
 app.use(express.json())
-import SalvaFilme from './infra/banco/banco-mongodb'
+import SalvaFilme from './aplicacao/salva-filme.use-case'
 import ListaFilme from './aplicacao/lista-filme.use-case'
 import BancoMongoDB from './infra/banco/banco-mongodb'
 const bancoMongoDB = new BancoMongoDB()
